@@ -27,7 +27,9 @@ node {
         )
     }
     stage('Publish Artifacts') {
-        sh 'twine upload --repository-url http://artifactsrepo:8081/nexus/repository/pypi-hosted/simple dist/*'
+        dir('cicdlab-flask-runner') {
+            sh 'twine upload --repository-url http://artifactsrepo:8081/nexus/repository/pypi-hosted/simple dist/*'
+        }
     }
     stage('Send Notification') {
         parallel(
