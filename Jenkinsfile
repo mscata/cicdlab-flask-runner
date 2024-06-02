@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'mscata/cicdlabs-ciagent'
+            image 'mscata/cicdlab-ciagent'
         }
     }
     environment {
