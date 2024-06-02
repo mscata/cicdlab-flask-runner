@@ -48,7 +48,7 @@ pipeline {
                 link: "",
                 result: currentBuild.currentResult,
                 title: currentBuild.fullDisplayName,
-                webhookURL: discordWebHookUrl
+                webhookURL: env.DISCORD_URL
             deleteDir()
         }
     }
