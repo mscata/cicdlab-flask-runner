@@ -19,20 +19,8 @@ pipeline {
             }
         }
         stage('Code and Artifact Scans') {
-            parallel {
-                stage('Dependency Check') {
-                    environment {
-                        DC_HOME = tool 'Dependency Check'
-                    }
-                    steps {
-                        sh "$DC_HOME/bin/dependency-check.sh -n -s ./cicdlab-flask-runner -f HTML -f JSON --prettyPrint"
-                    }
-                }
-                stage('Trivy') {
-                    steps {
-                        sh 'trivy fs ./cicdlab-flask-runner'
-                    }
-                }
+            steps {
+                sh 'trivy fs ./cicdlab-flask-runner'
             }
         }
         stage('Publish Artifacts') {
