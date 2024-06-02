@@ -6,10 +6,8 @@ node {
         checkout scm
     }
     stage('Build and Test') {
-        dir('cicdlab-flask-runner') {
-            sh 'python3 -m venv ./venv'
-            sh '. ./venv/bin/activate && pip install -r ./requirements.txt build && python -m build'
-        }
+        sh 'python3 -m venv ./venv'
+        sh '. ./venv/bin/activate && pip install -r ./requirements.txt build && python -m build'
     }
     stage('Code and Artifact Scans') {
         parallel(
@@ -27,9 +25,7 @@ node {
         )
     }
     stage('Publish Artifacts') {
-        dir('cicdlab-flask-runner') {
-            sh 'twine upload --repository-url http://artifactsrepo:8081/nexus/repository/pypi-hosted/simple dist/*'
-        }
+        sh 'twine upload --repository-url http://artifactsrepo:8081/nexus/repository/pypi-hosted/simple dist/*'
     }
     stage('Send Notification') {
         parallel(
