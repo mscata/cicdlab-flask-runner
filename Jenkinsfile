@@ -25,7 +25,11 @@ node {
         )
     }
     stage('Publish Artifacts') {
-        sh 'twine upload --repository-url http://artifactsrepo:8081/nexus/repository/pypi-hosted/simple dist/*'
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'NEXUS_PUBLISHER_CREDENTIALS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+            wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: env.PASSWORD]]]) {
+                sh 'twine upload -u $USERNAME -p $PASSWORD --repository-url http://artifactsrepo:8081/nexus/repository/pypi-hosted/ dist/*'
+            }
+        }
     }
     stage('Send Notification') {
         parallel(
