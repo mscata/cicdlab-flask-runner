@@ -1,5 +1,5 @@
 pipeline {
-    agent builder
+    agent { label 'builder' }
     environment {
         TOOLS_DIR = '/home/jenkins/tools'
         DISCORD_URL = 'https://discord.com/api/webhooks/1233451596676071527/iomVt3QPH4WLnWAO2hLmdKmW_QT-HgQpPyiQpxAWGic3wmztObLis33tHmPygCPbDX-_'
