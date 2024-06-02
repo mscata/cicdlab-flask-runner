@@ -3,7 +3,7 @@ node {
     def discordWebHookUrl = 'https://discord.com/api/webhooks/1233451596676071527/iomVt3QPH4WLnWAO2hLmdKmW_QT-HgQpPyiQpxAWGic3wmztObLis33tHmPygCPbDX-_'
     sh 'printenv | sort -h'
     stage('Check out Git repo') {
-        sh 'git clone http://scmserver:3000/cicdlab/cicdlab-flask-runner.git'
+        git checkout
     }
     stage('Build and Test') {
         dir('cicdlab-flask-runner') {
