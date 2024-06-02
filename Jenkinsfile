@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker {
             image 'mscata/cicdlabs-ciagent'
-            label "$BUILD_TAG"
         }
     }
     environment {
