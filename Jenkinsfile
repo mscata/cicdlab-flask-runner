@@ -31,19 +31,21 @@ pipeline {
     }
     post {
         always {
-            stage('Discord Notification') {
-                steps {
-                    discordSend description: "CI/CD Lab Build: Flask Runner",
-                        footer: "Marco's CI/CD Lab",
-                        link: "",
-                        result: currentBuild.currentResult,
-                        title: currentBuild.fullDisplayName,
-                        webhookURL: env.DISCORD_URL
+            parallel {
+                stage('Discord Notification') {
+                    steps {
+                        discordSend description: "CI/CD Lab Build: Flask Runner",
+                            footer: "Marco's CI/CD Lab",
+                            link: "",
+                            result: currentBuild.currentResult,
+                            title: currentBuild.fullDisplayName,
+                            webhookURL: env.DISCORD_URL
+                    }
                 }
-            }
-            stage('Cleanup') {
-                steps {
-                    deleteDir()
+                stage('Cleanup') {
+                    steps {
+                        deleteDir()
+                    }
                 }
             }
         }
