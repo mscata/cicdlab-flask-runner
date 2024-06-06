@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
     name='cicdlab-flask-runner',
     packages=['cicdlab-flask-runner'],
-    version='0.1',
+    version='0.0.0',
     license='MIT',  # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description='A simple runner for Flask apps',
     author='Marco Scata',
