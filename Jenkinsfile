@@ -23,14 +23,15 @@ pipeline {
         }
         stage('Code and Artifact Scans') {
             parallel {
+                sh 'mkdir -p ./dist/evidence'
                 stage('Generate SBOM') {
                     steps {
-                        sh 'trivy fs --format spdx-json --output ./dist/evidence/sbom.json'
+                        sh 'trivy fs . --format spdx-json --output ./dist/evidence/sbom.json'
                     }
                 }
                 stage('Find vulnerabilities') {
                     steps {
-                        sh 'trivy fs --format spdx-json --output ./dist/evidence/sbom.json'
+                        sh 'trivy fs . --format spdx-json --output ./dist/evidence/sbom.json'
                     }
                 }
                 stage('Find secrets') {
