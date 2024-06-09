@@ -19,11 +19,11 @@ pipeline {
             steps {
                 sh 'python3 -m venv ./venv'
                 sh '. ./venv/bin/activate && pip install -r ./requirements.txt build bump wheel && python -m build'
+                sh 'mkdir -p ./dist/evidence'
             }
         }
         stage('Code and Artifact Scans') {
             parallel {
-                sh 'mkdir -p ./dist/evidence'
                 stage('Generate SBOM') {
                     steps {
                         sh 'trivy fs . --format spdx-json --output ./dist/evidence/sbom.json'
