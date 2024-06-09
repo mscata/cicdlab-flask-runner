@@ -31,7 +31,7 @@ pipeline {
                 }
                 stage('Find vulnerabilities') {
                     steps {
-                        sh 'trivy fs . --format spdx-json --output ./dist/evidence/sbom.json'
+                        sh 'trivy fs . --format spdx-json --output ./evidence/sbom.json'
                     }
                 }
                 stage('Find secrets') {
