@@ -1,11 +1,12 @@
 from distutils.core import setup
+from setuptools import find_packages
 
-with open('./version.txt') as version_file:
+with open('version.txt') as version_file:
     version = version_file.read().strip()
 
 setup(
     name='cicdlab-flask-runner',
-    packages=['cicdlab-flask-runner'],
+    packages=find_packages(),
     version=version,
     license='MIT',  # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description='A simple runner for Flask apps',
@@ -23,4 +24,5 @@ setup(
         'Topic :: Software Development',
         'Topic :: System :: Software Distribution',
     ],
+    include_package_data=True,
 )

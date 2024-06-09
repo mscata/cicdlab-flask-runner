@@ -2,9 +2,10 @@ pipeline {
     agent { label 'builder' }
     environment {
         ARTIFACTS_BASEURL = 'http://artifactsrepo:8081/nexus/repository'
-        TOOLS_DIR = '/home/jenkins/tools'
+        ARTIFACTS_PUBLISHER = credentials('NEXUS_PUBLISHER_CREDENTIALS')
+        CODE_COMMITTER = credentials('GITEA_CREDENTIALS')
         DISCORD_URL = 'https://discord.com/api/webhooks/1233451596676071527/iomVt3QPH4WLnWAO2hLmdKmW_QT-HgQpPyiQpxAWGic3wmztObLis33tHmPygCPbDX-_'
-        NEXUS_PUBLISHER = credentials('NEXUS_PUBLISHER_CREDENTIALS')
+        TOOLS_DIR = '/home/jenkins/tools'
         VERSION = readFile(file: 'version.txt')
     }
     stages {
@@ -43,9 +44,9 @@ pipeline {
             steps {
                 sh '''
                 zip -r ./evidence.zip ./evidence
-                curl -v -u $NEXUS_PUBLISHER_USR:$NEXUS_PUBLISHER_PSW --upload-file evidence.zip \
+                curl -v -u $ARTIFACTS_PUBLISHER_USR:$ARTIFACTS_PUBLISHER_PSW --upload-file evidence.zip \
                     $ARTIFACTS_BASEURL/raw-hosted/cicdlab-flask-runner/$VERSION/cicdlab_flask_runner-$VERSION-evidence.zip
-                twine upload -u $NEXUS_PUBLISHER_USR -p $NEXUS_PUBLISHER_PSW \
+                twine upload -u $ARTIFACTS_PUBLISHER_USR -p $ARTIFACTS_PUBLISHER_PSW \
                     --repository-url $ARTIFACTS_BASEURL/pypi-hosted/ dist/*
                 python -m bumpversion patch
                 cat ./version.txt
