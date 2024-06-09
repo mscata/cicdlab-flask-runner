@@ -48,6 +48,7 @@ pipeline {
                 twine upload -u $NEXUS_PUBLISHER_USR -p $NEXUS_PUBLISHER_PSW \
                     --repository-url $ARTIFACTS_BASEURL/pypi-hosted/ dist/*
                 python -m bumpversion patch
+                cat ./version.txt
                 '''
             }
         }

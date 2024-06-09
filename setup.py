@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-with open('version.txt') as version_file:
+with open('./version.txt') as version_file:
     version = version_file.read().strip()
 
 setup(
