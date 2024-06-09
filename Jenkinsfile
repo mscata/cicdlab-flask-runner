@@ -6,7 +6,7 @@ pipeline {
         CODE_COMMITTER = credentials('GITEA_CREDENTIALS')
         DISCORD_URL = 'https://discord.com/api/webhooks/1233451596676071527/iomVt3QPH4WLnWAO2hLmdKmW_QT-HgQpPyiQpxAWGic3wmztObLis33tHmPygCPbDX-_'
         TOOLS_DIR = '/home/jenkins/tools'
-        VERSION = readFile(file: 'version.txt')
+        VERSION = readFile(file: 'version.txt').trim()
     }
     stages {
         stage('Check out code') {
