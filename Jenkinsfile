@@ -19,14 +19,14 @@ pipeline {
             steps {
                 sh 'python3 -m venv ./venv'
                 sh '. ./venv/bin/activate && pip install -r ./requirements.txt build bump wheel && python -m build'
-                sh 'mkdir -p ./dist/evidence'
+                sh 'mkdir -p ./evidence'
             }
         }
         stage('Code and Artifact Scans') {
             parallel {
                 stage('Generate SBOM') {
                     steps {
-                        sh 'trivy fs . --format spdx-json --output ./dist/evidence/sbom.json'
+                        sh 'trivy fs . --format spdx-json --output ./evidence/sbom.json'
                     }
                 }
                 stage('Find vulnerabilities') {
@@ -36,7 +36,7 @@ pipeline {
                 }
                 stage('Find secrets') {
                     steps {
-                        sh 'gitleaks detect -r ./dist/evidence/gitleaks.xml -f junit'
+                        sh 'gitleaks detect -r ./evidence/gitleaks.xml -f junit'
                     }
                 }
             }
