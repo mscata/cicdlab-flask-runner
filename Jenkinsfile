@@ -5,7 +5,7 @@ pipeline {
         TOOLS_DIR = '/home/jenkins/tools'
         DISCORD_URL = 'https://discord.com/api/webhooks/1233451596676071527/iomVt3QPH4WLnWAO2hLmdKmW_QT-HgQpPyiQpxAWGic3wmztObLis33tHmPygCPbDX-_'
         NEXUS_PUBLISHER = credentials('NEXUS_PUBLISHER_CREDENTIALS')
-        VERSION = readFile version.txt
+        VERSION = readFile(file: 'version.txt')
     }
     stages {
         stage('Check out code') {
