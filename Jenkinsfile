@@ -58,10 +58,13 @@ pipeline {
             steps {
                 sh '''
                 . ./venv/bin/activate
+                git checkout $BRANCH_NAME
                 python -m bumpversion patch
+                git status
+                git log -1
                 '''
-                withCredentials([gitUsernamePassword(credentialsId: 'GITEA_CREDENTIALS', gitToolName: 'git')]) {
-                    sh 'git push'
+                withCredentials([gitUsernamePassword(credentialsId: 'GITEA_CREDENTIALS')]) {
+                    sh 'git push --follow-tags origin $BRANCH_NAME'
                 }
             }
         }
