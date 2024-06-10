@@ -12,6 +12,7 @@ pipeline {
         stage('Check out code') {
             steps {
                 sh 'printenv | sort -h'
+                scmSkip
                 checkout scm
             }
         }
@@ -49,9 +50,19 @@ pipeline {
                     $ARTIFACTS_BASEURL/raw-hosted/cicdlab-flask-runner/$VERSION/cicdlab_flask_runner-$VERSION-evidence.zip
                 twine upload -u $ARTIFACTS_PUBLISHER_USR -p $ARTIFACTS_PUBLISHER_PSW \
                     --repository-url $ARTIFACTS_BASEURL/pypi-hosted/ dist/*
-                python -m bumpversion patch
-                cat ./version.txt
+                git tag $VERSION
                 '''
+            }
+        }
+        stage('Bump Version') {
+            steps {
+                sh '''
+                . ./venv/bin/activate
+                python -m bumpversion patch
+                '''
+                withCredentials([gitUsernamePassword(credentialsId: 'GITEA_CREDENTIALS', gitToolName: 'git')]) {
+                    sh 'git push'
+                }
             }
         }
     }
