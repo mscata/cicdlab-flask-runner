@@ -32,7 +32,7 @@ pipeline {
                 }
                 stage('Find vulnerabilities') {
                     steps {
-                        sh 'trivy fs . --format spdx-json --output ./evidence/sbom.json'
+                        sh 'trivy fs . --format json --output ./evidence/trivy.json'
                     }
                 }
                 stage('Find secrets') {
@@ -50,17 +50,15 @@ pipeline {
                     $ARTIFACTS_BASEURL/raw-hosted/cicdlab-flask-runner/$VERSION/cicdlab_flask_runner-$VERSION-evidence.zip
                 twine upload -u $ARTIFACTS_PUBLISHER_USR -p $ARTIFACTS_PUBLISHER_PSW \
                     --repository-url $ARTIFACTS_BASEURL/pypi-hosted/ dist/*
-                git tag $VERSION
                 '''
             }
         }
         stage('Bump Version') {
             steps {
                 sh '''
-                . ./venv/bin/activate
                 git checkout $BRANCH_NAME
+                . ./venv/bin/activate
                 python -m bumpversion patch
-                git status
                 git log -1
                 '''
                 withCredentials([gitUsernamePassword(credentialsId: 'GITEA_CREDENTIALS')]) {
