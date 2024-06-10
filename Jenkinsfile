@@ -19,7 +19,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 sh 'python3 -m venv ./venv'
-                sh '. ./venv/bin/activate && pip install -r ./requirements.txt build bump wheel && python -m build'
+                sh '. ./venv/bin/activate && pip install -r ./requirements.txt build bumpversion wheel && python -m build'
                 sh 'mkdir -p ./evidence'
             }
         }
