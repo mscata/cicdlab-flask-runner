@@ -12,7 +12,7 @@ pipeline {
         stage('Check out code') {
             steps {
                 sh 'printenv | sort -h'
-                scmSkip
+                scmSkip()
                 checkout scm
             }
         }
